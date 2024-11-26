@@ -1,19 +1,19 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
 
-const deps = require("./package.json").dependencies;
+const deps = require('./package.json').dependencies;
 
 const printCompilationMessage = require('./compilation.config.js');
 
 module.exports = (_, argv) => ({
     output: {
-        publicPath: "http://localhost:8080/",
+        publicPath: 'http://localhost:8080/',
     },
 
     resolve: {
-        extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+        extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
     },
 
     devServer: {
@@ -41,36 +41,36 @@ module.exports = (_, argv) => ({
         rules: [
             {
                 test: /\.m?js/,
-                type: "javascript/auto",
+                type: 'javascript/auto',
                 resolve: {
                     fullySpecified: false,
                 },
             },
             {
                 test: /\.(css|s[ac]ss)$/i,
-                use: ["style-loader", "css-loader", "postcss-loader"],
+                use: ['style-loader', 'css-loader', 'postcss-loader'],
             },
             {
                 test: /\.(ts|tsx|js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader",
+                    loader: 'babel-loader',
                 },
             },
             {
                 test: /\.svg$/,
-                type: "asset/resource",
+                type: 'asset/resource',
             },
         ],
     },
 
     plugins: [
         new ModuleFederationPlugin({
-            name: "host",
-            filename: "remoteEntry.js",
+            name: 'host',
+            filename: 'remoteEntry.js',
             remotes: {
-                "auth": "auth@http://localhost:8081/remoteEntry.js",
-                "tasks": "tasks@http://localhost:8082/remoteEntry.js",
+                'auth': 'auth@http://localhost:8081/remoteEntry.js',
+                'tasks': 'tasks@http://localhost:8082/remoteEntry.js',
             },
             exposes: {},
             shared: {
@@ -79,14 +79,14 @@ module.exports = (_, argv) => ({
                     singleton: true,
                     requiredVersion: deps.react,
                 },
-                "react-dom": {
+                'react-dom': {
                     singleton: true,
-                    requiredVersion: deps["react-dom"],
+                    requiredVersion: deps['react-dom'],
                 },
             },
         }),
         new HtmlWebPackPlugin({
-            template: "./public/index.html",
+            template: './public/index.html',
         }),
         new Dotenv()
     ],

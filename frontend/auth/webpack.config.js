@@ -1,19 +1,19 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
 
-const deps = require("./package.json").dependencies;
+const deps = require('./package.json').dependencies;
 
 const printCompilationMessage = require('./compilation.config.js');
 
 module.exports = (_, argv) => ({
     output: {
-        publicPath: "http://localhost:8081/",
+        publicPath: 'http://localhost:8081/',
     },
 
     resolve: {
-        extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+        extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
     },
 
     devServer: {
@@ -41,20 +41,20 @@ module.exports = (_, argv) => ({
         rules: [
             {
                 test: /\.m?js/,
-                type: "javascript/auto",
+                type: 'javascript/auto',
                 resolve: {
                     fullySpecified: false,
                 },
             },
             {
                 test: /\.(css|s[ac]ss)$/i,
-                use: ["style-loader", "css-loader", "postcss-loader"],
+                use: ['style-loader', 'css-loader', 'postcss-loader'],
             },
             {
                 test: /\.(ts|tsx|js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader",
+                    loader: 'babel-loader',
                 },
             },
         ],
@@ -62,12 +62,12 @@ module.exports = (_, argv) => ({
 
     plugins: [
         new ModuleFederationPlugin({
-            name: "auth",
-            filename: "remoteEntry.js",
+            name: 'auth',
+            filename: 'remoteEntry.js',
             remotes: {},
             exposes: {
-                "./Login": "./src/components/Login.js",
-                "./Welcome": "./src/components/Welcome.js",
+                './Login': './src/components/Login.js',
+                './Welcome': './src/components/Welcome.js',
             },
             shared: {
                 ...deps,
@@ -75,14 +75,14 @@ module.exports = (_, argv) => ({
                     singleton: true,
                     requiredVersion: deps.react,
                 },
-                "react-dom": {
+                'react-dom': {
                     singleton: true,
-                    requiredVersion: deps["react-dom"],
+                    requiredVersion: deps['react-dom'],
                 },
             },
         }),
         new HtmlWebPackPlugin({
-            template: "./src/index.html",
+            template: './src/index.html',
         }),
         new Dotenv()
     ],

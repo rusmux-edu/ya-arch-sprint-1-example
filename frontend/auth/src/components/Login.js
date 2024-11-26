@@ -1,13 +1,13 @@
 import {useState} from 'react';
 import './Login.css';
-import api from "../utils/api";
+import api from '../utils/api';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const onLogin = (name, password) => {
-        dispatchEvent(new CustomEvent("jwt-change", {detail: api.login(name, password)}))
+        dispatchEvent(new CustomEvent('jwt-change', {detail: api.login(name, password)}))
     };
 
     return (
