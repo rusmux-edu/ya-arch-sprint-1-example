@@ -12,15 +12,15 @@ export default function TaskList({jwt}) {
     }, [jwt]);
 
     const checkChanged = (id, prevChecked) => {
-        const updatedTasks = tasks.map((x) => {
+        const updatedTasks = tasks.map(x => {
             api.checkedChanged(jwt, id, !prevChecked);
             return x.id === id
                 ? {
-                    id: x.id,
-                    title: x.title,
-                    description: x.description,
-                    checked: !prevChecked,
-                }
+                      id: x.id,
+                      title: x.title,
+                      description: x.description,
+                      checked: !prevChecked,
+                  }
                 : x;
         });
         setTasks(updatedTasks);
@@ -29,11 +29,11 @@ export default function TaskList({jwt}) {
     return (
         <div className='task-list'>
             <h3>Задачи на сегодня</h3>
-            {tasks.map((x) => {
+            {tasks.map(x => {
                 return (
                     <div key={x.id}>
                         <div>
-                            <input type='checkbox' onChange={() => checkChanged(x.id, x.checked)} checked={x.checked}/>
+                            <input type='checkbox' onChange={() => checkChanged(x.id, x.checked)} checked={x.checked} />
                             <span className={x.checked ? 'completed' : ''}>{x.title}</span>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
-const path = require('path');
+const path = require('node:path');
 const Dotenv = require('dotenv-webpack');
 
 const deps = require('./package.json').dependencies;
@@ -20,21 +20,21 @@ module.exports = (_, argv) => ({
         port: 8080,
         historyApiFallback: true,
         watchFiles: [path.resolve(__dirname, 'src')],
-        onListening: function (devServer) {
+        onListening: devServer => {
             const port = devServer.server.address().port;
 
             printCompilationMessage('compiling', port);
 
-            devServer.compiler.hooks.done.tap('OutputMessagePlugin', (stats) => {
+            devServer.compiler.hooks.done.tap('OutputMessagePlugin', stats => {
                 setImmediate(() => {
                     if (stats.hasErrors()) {
-                        printCompilationMessage('failure', port)
+                        printCompilationMessage('failure', port);
                     } else {
-                        printCompilationMessage('success', port)
+                        printCompilationMessage('success', port);
                     }
-                })
-            })
-        }
+                });
+            });
+        },
     },
 
     module: {
@@ -69,8 +69,8 @@ module.exports = (_, argv) => ({
             name: 'host',
             filename: 'remoteEntry.js',
             remotes: {
-                'auth': 'auth@http://localhost:8081/remoteEntry.js',
-                'tasks': 'tasks@http://localhost:8082/remoteEntry.js',
+                auth: 'auth@http://localhost:8081/remoteEntry.js',
+                tasks: 'tasks@http://localhost:8082/remoteEntry.js',
             },
             exposes: {},
             shared: {
@@ -88,6 +88,6 @@ module.exports = (_, argv) => ({
         new HtmlWebPackPlugin({
             template: './public/index.html',
         }),
-        new Dotenv()
+        new Dotenv(),
     ],
 });

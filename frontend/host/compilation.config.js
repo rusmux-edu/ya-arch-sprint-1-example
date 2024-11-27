@@ -1,5 +1,7 @@
 const printCompilationMessage = (status, port) => {
-    let messageColor, messageType, browserMessage;
+    let messageColor;
+    let messageType;
+    let browserMessage;
 
     switch (status) {
         case 'success':
@@ -20,11 +22,11 @@ const printCompilationMessage = (status, port) => {
     }
 
     console.log(`\n\n
-  ${messageColor}${messageType}\x1b[0m\n
-  ${browserMessage} \x1b[1mRemote\x1b[0m in the browser.
-  ${messageColor}${messageType}\x1b[0m\n
-  \x1b[1mLocal\x1b[0m:  http://localhost:\x1b[1m${port}\x1b[0m
-  \x1b[1mLocal\x1b[0m:  http://localhost:\x1b[1m${port}\x1b[0m\n\n
+    ${messageColor}${messageType}\x1b[0m\n
+    ${browserMessage} \x1b[1mRemote\x1b[0m in the browser.
+    ${messageColor}${messageType}\x1b[0m\n
+    \x1b[1mLocal\x1b[0m:  http://localhost:\x1b[1m${port}\x1b[0m
+    \x1b[1mLocal\x1b[0m:  http://localhost:\x1b[1m${port}\x1b[0m\n\n
     `);
 };
 

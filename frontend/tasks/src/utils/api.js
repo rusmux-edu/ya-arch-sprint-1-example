@@ -73,13 +73,13 @@ class Api {
         localStorage.setItem(
             storageKey,
             JSON.stringify(
-                tasks.map((x) =>
+                tasks.map(x =>
                     x.id === id
                         ? {
-                            id: x.id,
-                            title: x.title,
-                            checked: checked,
-                        }
+                              id: x.id,
+                              title: x.title,
+                              checked: checked,
+                          }
                         : x,
                 ),
             ),
