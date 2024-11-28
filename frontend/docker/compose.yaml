@@ -1,0 +1,72 @@
+name: frontend
+
+x-platform: &platform
+              linux/amd64
+
+x-build-defaults: &build_defaults
+  platforms:
+    - *platform
+  target: prod
+
+x-restart-policy: &restart_policy
+  restart: on-failure:3
+
+x-depends-on-healthy: &depends_on_healthy
+  condition: service_healthy
+
+x-healthcheck-defaults: &healthcheck_defaults
+  interval: 10s
+  timeout: 1m
+  start_period: 10s
+  retries: 3
+
+services:
+  auth:
+    container_name: auth
+    image: example/auth
+    platform: *platform
+    build:
+      context: ../mfe/auth
+      <<: *build_defaults
+    <<: *restart_policy
+    ports:
+      - "8081:8081"
+    healthcheck:
+      test: nc -z localhost 8081 || exit 1
+      <<: *healthcheck_defaults
+
+  tasks:
+    container_name: tasks
+    image: example/tasks
+    platform: *platform
+    build:
+      context: ../mfe/tasks
+      <<: *build_defaults
+    <<: *restart_policy
+    ports:
+      - "8082:8082"
+    healthcheck:
+      test: nc -z localhost 8082 || exit 1
+      <<: *healthcheck_defaults
+
+  host:
+    container_name: host
+    depends_on:
+      auth:
+        <<: *depends_on_healthy
+      tasks:
+        <<: *depends_on_healthy
+    image: example/host
+    platform: *platform
+    build:
+      context: ../mfe/host
+      <<: *build_defaults
+    <<: *restart_policy
+    ports:
+      - "8080:8080"
+    environment:
+      REACT_APP_AUTH_URL: http://auth:8081
+      REACT_APP_TASKS_URL: http://tasks:8082
+    healthcheck:
+      test: nc -z localhost 8080 || exit 1
+      <<: *healthcheck_defaults

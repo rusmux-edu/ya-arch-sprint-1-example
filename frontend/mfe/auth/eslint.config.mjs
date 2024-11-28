@@ -27,9 +27,7 @@ export default [
             },
         },
     },
-    {
-        ignores: ['compilation.config.js', 'webpack.config.js'],
-    },
+    {ignores: ['dist', 'compilation.config.js', 'webpack.config.js']},
     js.configs.recommended,
     importPlugin.flatConfigs.recommended,
     perfectionist.configs['recommended-natural'],

@@ -7,6 +7,9 @@ const deps = require('./package.json').dependencies;
 
 const printCompilationMessage = require('./compilation.config.js');
 
+const authUrl = process.env.REACT_APP_AUTH_URL || 'http://localhost:8081';
+const tasksUrl = process.env.REACT_APP_TASKS_URL || 'http://localhost:8082';
+
 module.exports = (_, argv) => ({
     output: {
         publicPath: 'http://localhost:8080/',
@@ -69,8 +72,8 @@ module.exports = (_, argv) => ({
             name: 'host',
             filename: 'remoteEntry.js',
             remotes: {
-                auth: 'auth@http://localhost:8081/remoteEntry.js',
-                tasks: 'tasks@http://localhost:8082/remoteEntry.js',
+                auth: `auth@${authUrl}/remoteEntry.js`,
+                tasks: `tasks@${tasksUrl}/remoteEntry.js`,
             },
             exposes: {},
             shared: {

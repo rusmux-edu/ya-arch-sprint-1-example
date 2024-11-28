@@ -6,9 +6,9 @@ const DefaultComponent = () => <div className='error'>Component is not available
 const catchCallback = () => ({default: DefaultComponent});
 
 /* eslint-disable import/no-unresolved */
-const Login = lazy(() => import('auth.js/Login').catch(catchCallback));
-const Welcome = lazy(() => import('auth.js/Welcome').catch(catchCallback));
-const TaskList = lazy(() => import('tasks.js/TaskList').catch(catchCallback));
+const Login = lazy(() => import('auth/Login').catch(catchCallback));
+const Welcome = lazy(() => import('auth/Welcome').catch(catchCallback));
+const TaskList = lazy(() => import('tasks/TaskList').catch(catchCallback));
 /* eslint-enable import/no-unresolved */
 
 export default function App() {

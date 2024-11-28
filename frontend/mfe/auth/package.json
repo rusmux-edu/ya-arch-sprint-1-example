@@ -1,5 +1,5 @@
 {
-  "name": "host",
+  "name": "auth",
   "version": "1.0.0",
   "private": true,
   "engines": {
@@ -9,13 +9,14 @@
   "scripts": {
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
-    "build:start": "cd dist && PORT=8080 npx serve",
+    "build:start": "cd dist && PORT=8081 pnpx serve",
     "start": "webpack serve --mode development",
     "start:live": "webpack serve --mode development --live-reload --hot",
     "lint:eslint": "eslint --cache --cache-strategy content"
   },
   "dependencies": {
     "@babel/runtime": "^7.26.0",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
@@ -27,6 +28,9 @@
     "@babel/preset-react": "^7.25.9",
     "@biomejs/biome": "^1.9.4",
     "@eslint/js": "^9.15.0",
+    "@types/node": "^22.10.1",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
     "autoprefixer": "^10.4.20",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
