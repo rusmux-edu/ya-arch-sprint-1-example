@@ -1,17 +1,17 @@
-import React, {lazy, Suspense, useCallback, useEffect, useState} from 'react';
-import ReactDOM from 'react-dom/client';
-import logo from './assets/logo.svg';
+import {lazy, Suspense, useCallback, useEffect, useState} from 'react';
 
-import './index.css';
+import logo from '../assets/logo.svg';
 
 const DefaultComponent = () => <div className='error'>Component is not available!</div>;
 const catchCallback = () => ({default: DefaultComponent});
 
-const Login = lazy(() => import('auth/Login').catch(catchCallback));
-const Welcome = lazy(() => import('auth/Welcome').catch(catchCallback));
-const TaskList = lazy(() => import('tasks/TaskList').catch(catchCallback));
+/* eslint-disable import/no-unresolved */
+const Login = lazy(() => import('auth.js/Login').catch(catchCallback));
+const Welcome = lazy(() => import('auth.js/Welcome').catch(catchCallback));
+const TaskList = lazy(() => import('tasks.js/TaskList').catch(catchCallback));
+/* eslint-enable import/no-unresolved */
 
-const App = () => {
+export default function App() {
     const [jwt, setJwt] = useState('');
 
     const handleJwtChange = useCallback(event => {
@@ -26,7 +26,7 @@ const App = () => {
     return (
         <div className='container'>
             <header className='app-header'>
-                <img src={logo} className='app-logo' alt='logo' />
+                <img alt='logo' className='app-logo' src={logo} />
                 Лабораторная работа по микрофронтендам
             </header>
             <section className='app-content'>
@@ -49,11 +49,4 @@ const App = () => {
             </section>
         </div>
     );
-};
-
-const rootElement = document.getElementById('app');
-if (!rootElement) throw new Error('Failed to find the root element');
-
-const root = ReactDOM.createRoot(rootElement);
-
-root.render(<App />);
+}

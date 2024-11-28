@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import api from '../utils/api';
+import PropTypes from 'prop-types';
 
 export default function Welcome({jwt}) {
     const [userName, setUserName] = useState('');
@@ -20,3 +21,7 @@ export default function Welcome({jwt}) {
         </h1>
     );
 }
+
+Welcome.propTypes = {
+    jwt: PropTypes.string,
+};

@@ -12,6 +12,9 @@
     "indentWidth": 4,
     "lineWidth": 120
   },
+  "organizeImports": {
+    "enabled": false
+  },
   "javascript": {
     "formatter": {
       "quoteStyle": "single",

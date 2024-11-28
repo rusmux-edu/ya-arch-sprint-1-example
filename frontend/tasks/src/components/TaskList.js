@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import api from '../utils/api';
 import './TaskList.css';
+import PropTypes from 'prop-types';
 
 export default function TaskList({jwt}) {
     const [tasks, setTasks] = useState([]);
@@ -33,7 +34,7 @@ export default function TaskList({jwt}) {
                 return (
                     <div key={x.id}>
                         <div>
-                            <input type='checkbox' onChange={() => checkChanged(x.id, x.checked)} checked={x.checked} />
+                            <input checked={x.checked} onChange={() => checkChanged(x.id, x.checked)} type='checkbox' />
                             <span className={x.checked ? 'completed' : ''}>{x.title}</span>
                         </div>
                     </div>
@@ -42,3 +43,7 @@ export default function TaskList({jwt}) {
         </div>
     );
 }
+
+TaskList.propTypes = {
+    jwt: PropTypes.string,
+};

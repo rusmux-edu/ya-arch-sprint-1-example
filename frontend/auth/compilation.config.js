@@ -4,29 +4,32 @@ const printCompilationMessage = (status, port) => {
     let browserMessage;
 
     switch (status) {
-        case 'success':
-            messageColor = '\x1b[32m';
+        case 'success': {
+            messageColor = '\u001B[32m';
             messageType = 'Compiled successfully!';
             browserMessage = 'You can now view';
             break;
-        case 'failure':
-            messageColor = '\x1b[31m';
+        }
+        case 'failure': {
+            messageColor = '\u001B[31m';
             messageType = 'Compilation Failed!';
             browserMessage = "You can't now view";
             break;
-        case 'compiling':
-            messageColor = '\x1b[94m';
+        }
+        case 'compiling': {
+            messageColor = '\u001B[94m';
             messageType = 'Compiling...';
             browserMessage = 'Compiling the';
             break;
+        }
     }
 
     console.log(`\n\n
-    ${messageColor}${messageType}\x1b[0m\n
-    ${browserMessage} \x1b[1mRemote\x1b[0m in the browser.
-    ${messageColor}${messageType}\x1b[0m\n
-    \x1b[1mLocal\x1b[0m:  http://localhost:\x1b[1m${port}\x1b[0m
-    \x1b[1mLocal\x1b[0m:  http://localhost:\x1b[1m${port}\x1b[0m\n\n
+    ${messageColor}${messageType}\u001B[0m\n
+    ${browserMessage} \u001B[1mRemote\u001B[0m in the browser.
+    ${messageColor}${messageType}\u001B[0m\n
+    \u001B[1mLocal\u001B[0m:  http://localhost:\u001B[1m${port}\u001B[0m
+    \u001B[1mLocal\u001B[0m:  http://localhost:\u001B[1m${port}\u001B[0m\n\n
     `);
 };
 
