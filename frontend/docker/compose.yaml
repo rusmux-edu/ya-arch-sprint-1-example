@@ -4,6 +4,7 @@ x-platform: &platform
               linux/amd64
 
 x-build-defaults: &build_defaults
+  context: ..
   platforms:
     - *platform
   target: prod
@@ -26,8 +27,10 @@ services:
     image: example/auth
     platform: *platform
     build:
-      context: ../mfe/auth
       <<: *build_defaults
+      dockerfile: mfe/auth/Dockerfile
+      args:
+        REACT_APP_HOST_URL: http://localhost:8080
     <<: *restart_policy
     ports:
       - "8081:8081"
@@ -40,8 +43,10 @@ services:
     image: example/tasks
     platform: *platform
     build:
-      context: ../mfe/tasks
       <<: *build_defaults
+      dockerfile: mfe/tasks/Dockerfile
+      args:
+        REACT_APP_HOST_URL: http://localhost:8080
     <<: *restart_policy
     ports:
       - "8082:8082"
@@ -59,14 +64,14 @@ services:
     image: example/host
     platform: *platform
     build:
-      context: ../mfe/host
       <<: *build_defaults
+      dockerfile: mfe/host/Dockerfile
+      args:
+        REACT_APP_AUTH_URL: http://localhost:8081
+        REACT_APP_TASKS_URL: http://localhost:8082
     <<: *restart_policy
     ports:
       - "8080:8080"
-    environment:
-      REACT_APP_AUTH_URL: http://auth:8081
-      REACT_APP_TASKS_URL: http://tasks:8082
     healthcheck:
       test: nc -z localhost 8080 || exit 1
       <<: *healthcheck_defaults

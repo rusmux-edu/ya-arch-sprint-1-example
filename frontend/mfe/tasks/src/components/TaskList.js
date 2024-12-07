@@ -1,7 +1,9 @@
-import {useEffect, useState} from 'react';
-import api from '../utils/api';
-import './TaskList.css';
+import '@/components/TaskList.css';
+
 import PropTypes from 'prop-types';
+import {useEffect, useState} from 'react';
+
+import api from '@/utils/api';
 
 export default function TaskList({jwt}) {
     const [tasks, setTasks] = useState([]);
@@ -34,7 +36,7 @@ export default function TaskList({jwt}) {
                 return (
                     <div key={x.id}>
                         <div>
-                            <input checked={x.checked} onChange={() => checkChanged(x.id, x.checked)} type='checkbox' />
+                            <input checked={x.checked} type='checkbox' onChange={() => checkChanged(x.id, x.checked)} />
                             <span className={x.checked ? 'completed' : ''}>{x.title}</span>
                         </div>
                     </div>

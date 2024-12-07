@@ -1,9 +1,12 @@
 import {lazy, Suspense, useCallback, useEffect, useState} from 'react';
 
-import logo from '../assets/logo.svg';
+import logo from '@/assets/logo.svg';
 
 const DefaultComponent = () => <div className='error'>Component is not available!</div>;
-const catchCallback = () => ({default: DefaultComponent});
+const catchCallback = error => {
+    console.error(error);
+    return {default: DefaultComponent};
+};
 
 /* eslint-disable import/no-unresolved */
 const Login = lazy(() => import('auth/Login').catch(catchCallback));

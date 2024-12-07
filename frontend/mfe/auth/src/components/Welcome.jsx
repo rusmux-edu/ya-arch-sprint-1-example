@@ -1,6 +1,7 @@
-import {useEffect, useState} from 'react';
-import api from '../utils/api';
 import PropTypes from 'prop-types';
+import {useEffect, useState} from 'react';
+
+import api from '@/utils/api.js';
 
 export default function Welcome({jwt}) {
     const [userName, setUserName] = useState('');

@@ -3,12 +3,13 @@ variable "TAG" {
 }
 
 target "default" {
-    name = tgt
     matrix = {
         tgt = ["dev", "prod"]
     }
-    target  = tgt
-    context = "."
+    name       = tgt
+    context    = "../.."
+    dockerfile = "mfe/host/Dockerfile"
+    target     = tgt
     tags = ["example/host:${TAG}"]
     platforms = ["linux/amd64"]
 }

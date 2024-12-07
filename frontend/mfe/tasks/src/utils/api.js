@@ -68,7 +68,8 @@ class Api {
         );
     }
 
-    getTasks(_token) {  // eslint-disable-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
+    getTasks(_token) {
         // В реальном приложении здесь будет обращение к API tasks service
         return JSON.parse(localStorage.getItem(storageKey));
     }

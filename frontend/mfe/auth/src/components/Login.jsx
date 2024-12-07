@@ -1,6 +1,8 @@
+import '@/components/Login.css';
+
 import {useState} from 'react';
-import './Login.css';
-import api from '../utils/api';
+
+import api from '@/utils/api.js';
 
 const onLogin = (name, password) => {
     dispatchEvent(new CustomEvent('jwt-change', {detail: api.login(name, password)}));

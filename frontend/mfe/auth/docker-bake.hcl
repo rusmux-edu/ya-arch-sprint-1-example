@@ -3,12 +3,13 @@ variable "TAG" {
 }
 
 target "default" {
-    name = tgt
     matrix = {
         tgt = ["dev", "prod"]
     }
-    target  = tgt
-    context = "."
+    name       = tgt
+    context    = "../.."
+    dockerfile = "mfe/auth/Dockerfile"
+    target     = tgt
     tags = ["example/auth:${TAG}"]
     platforms = ["linux/amd64"]
 }

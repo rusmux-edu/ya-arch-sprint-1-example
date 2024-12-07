@@ -5,7 +5,7 @@
     "useIgnoreFile": false
   },
   "files": {
-    "ignore": []
+    "ignore": ["dist"]
   },
   "formatter": {
     "indentStyle": "space",
