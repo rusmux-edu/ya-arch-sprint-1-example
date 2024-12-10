@@ -2,7 +2,7 @@ FROM node:23-slim AS base
 
 ENV PNPM_HOME="/pnpm"
 
-WORKDIR /frontend/mfe/tasks
+WORKDIR /frontend/mfe/store
 
 ARG PLUGIN_PATH="eslint-plugin-local/example-eslint-plugin-local-1.0.0.tgz"
 COPY --from=frontend $PLUGIN_PATH /frontend/$PLUGIN_PATH
@@ -20,20 +20,19 @@ ENV NODE_ENV=development
 
 CMD [ "pnpm", "dev" ]
 
-EXPOSE 8082
+EXPOSE 8080
 
 FROM base AS build
 
 ENV NODE_ENV=production
 
-ARG REACT_APP_HOST_URL="http://localhost:8080"
 RUN pnpm build
 
 FROM nginxinc/nginx-unprivileged:alpine-slim AS prod
 
-COPY --from=build /frontend/mfe/tasks/dist /usr/share/nginx/html
+COPY --from=build /frontend/mfe/store/dist /usr/share/nginx/html
 COPY configs/nginx.conf /etc/nginx/conf.d/default.conf
 
 CMD ["nginx", "-g", "daemon off;"]
 
-EXPOSE 8082
+EXPOSE 8080

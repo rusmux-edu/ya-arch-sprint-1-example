@@ -4,14 +4,12 @@ import {pluginReact} from '@rsbuild/plugin-react';
 
 import {dependencies} from './package.json';
 
-const storeUrl = process.env.REACT_APP_STORE_URL || 'http://localhost:8083';
-
 export default defineConfig({
     source: {
         tsconfigPath: './jsconfig.json',
     },
     server: {
-        port: 8082,
+        port: 8083,
         strictPort: true,
         headers: {'Access-Control-Allow-Origin': '*'}, // handled by NGINX
     },
@@ -21,17 +19,15 @@ export default defineConfig({
     plugins: [
         pluginReact(),
         pluginModuleFederation({
-            name: 'tasks',
-            remotes: {
-                store: `store@${storeUrl}/mf-manifest.json`,
-            },
+            name: 'store',
             exposes: {
-                './TaskList': './src/components/TaskList.js',
+                './jwtStore': './src/store/jwtStore.js',
             },
             shared: {
                 ...dependencies,
                 react: {singleton: true, requiredVersion: dependencies.react},
                 'react-dom': {singleton: true, requiredVersion: dependencies['react-dom']},
+                zustand: {singleton: true, requiredVersion: dependencies.zustand},
             },
         }),
     ],

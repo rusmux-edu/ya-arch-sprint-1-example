@@ -4,7 +4,7 @@ import {pluginReact} from '@rsbuild/plugin-react';
 
 import {dependencies} from './package.json';
 
-const hostUrl = process.env.REACT_APP_HOST_URL || 'http://localhost:8080';
+const storeUrl = process.env.REACT_APP_STORE_URL || 'http://localhost:8083';
 
 export default defineConfig({
     source: {
@@ -13,7 +13,7 @@ export default defineConfig({
     server: {
         port: 8081,
         strictPort: true,
-        headers: {'Access-Control-Allow-Origin': hostUrl},
+        headers: {'Access-Control-Allow-Origin': '*'}, // handled by NGINX
     },
     output: {
         assetPrefix: 'auto',
@@ -22,6 +22,9 @@ export default defineConfig({
         pluginReact(),
         pluginModuleFederation({
             name: 'auth',
+            remotes: {
+                store: `store@${storeUrl}/mf-manifest.json`,
+            },
             exposes: {
                 './Login': './src/components/Login.jsx',
                 './Welcome': './src/components/Welcome.jsx',

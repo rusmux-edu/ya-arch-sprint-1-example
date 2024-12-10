@@ -4,7 +4,8 @@ x-platform: &platform
               linux/amd64
 
 x-build-defaults: &build_defaults
-  context: ..
+  additional_contexts:
+    frontend: ..
   platforms:
     - *platform
   target: prod
@@ -22,13 +23,30 @@ x-healthcheck-defaults: &healthcheck_defaults
   retries: 3
 
 services:
+  store:
+    container_name: store
+    image: example/store
+    platform: *platform
+    build:
+      <<: *build_defaults
+      context: ../mfe/store
+    <<: *restart_policy
+    ports:
+      - "8083:8083"
+    healthcheck:
+      test: nc -z localhost 8083 || exit 1
+      <<: *healthcheck_defaults
+
   auth:
     container_name: auth
+    depends_on:
+      store:
+        <<: *depends_on_healthy
     image: example/auth
     platform: *platform
     build:
       <<: *build_defaults
-      dockerfile: mfe/auth/Dockerfile
+      context: ../mfe/auth
       args:
         REACT_APP_HOST_URL: http://localhost:8080
     <<: *restart_policy
@@ -40,11 +58,14 @@ services:
 
   tasks:
     container_name: tasks
+    depends_on:
+      store:
+        <<: *depends_on_healthy
     image: example/tasks
     platform: *platform
     build:
       <<: *build_defaults
-      dockerfile: mfe/tasks/Dockerfile
+      context: ../mfe/tasks
       args:
         REACT_APP_HOST_URL: http://localhost:8080
     <<: *restart_policy
@@ -57,6 +78,8 @@ services:
   host:
     container_name: host
     depends_on:
+      store:
+        <<: *depends_on_healthy
       auth:
         <<: *depends_on_healthy
       tasks:
@@ -65,7 +88,7 @@ services:
     platform: *platform
     build:
       <<: *build_defaults
-      dockerfile: mfe/host/Dockerfile
+      context: ../mfe/host
       args:
         REACT_APP_AUTH_URL: http://localhost:8081
         REACT_APP_TASKS_URL: http://localhost:8082

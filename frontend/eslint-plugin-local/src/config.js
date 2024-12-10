@@ -47,6 +47,7 @@ export default [
             'simple-import-sort': simpleImportSort,
         },
         rules: {
+            'no-unused-vars': 'warn',
             'n/no-missing-import': 'off', // eslint-plugin-import is used
             'perfectionist/sort-imports': 'off',
             'perfectionist/sort-jsx-props': 'off',

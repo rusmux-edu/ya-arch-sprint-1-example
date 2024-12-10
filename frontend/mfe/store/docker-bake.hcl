@@ -11,6 +11,6 @@ target "default" {
         frontend = "../.."
     }
     target = tgt
-    tags = ["example/tasks:${TAG}"]
+    tags = ["example/store:${TAG}"]
     platforms = ["linux/amd64"]
 }

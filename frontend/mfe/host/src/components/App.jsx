@@ -1,11 +1,12 @@
-import {lazy, Suspense, useCallback, useEffect, useState} from 'react';
+import {lazy, Suspense} from 'react';
+import useJwtStore from 'store/jwtStore'; /* eslint-disable-line import/no-unresolved */
 
 import logo from '@/assets/logo.svg';
 
-const DefaultComponent = () => <div className='error'>Component is not available!</div>;
+const FallbackComponent = () => <div className='error'>Component is not available!</div>;
 const catchCallback = error => {
-    console.error(error);
-    return {default: DefaultComponent};
+    console.error(`Error during loading remote: ${error}`);
+    return {default: FallbackComponent};
 };
 
 /* eslint-disable import/no-unresolved */
@@ -15,16 +16,7 @@ const TaskList = lazy(() => import('tasks/TaskList').catch(catchCallback));
 /* eslint-enable import/no-unresolved */
 
 export default function App() {
-    const [jwt, setJwt] = useState('');
-
-    const handleJwtChange = useCallback(event => {
-        setJwt(event.detail);
-    }, []);
-
-    useEffect(() => {
-        addEventListener('jwt-change', handleJwtChange);
-        return () => removeEventListener('jwt-change', handleJwtChange);
-    }, [handleJwtChange]);
+    const jwt = useJwtStore(state => state.jwt);
 
     return (
         <div className='container'>

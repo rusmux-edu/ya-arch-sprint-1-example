@@ -2,11 +2,13 @@ import '@/components/TaskList.css';
 
 import PropTypes from 'prop-types';
 import {useEffect, useState} from 'react';
+import useJwtStore from 'store/jwtStore'; /* eslint-disable-line import/no-unresolved */
 
 import api from '@/utils/api';
 
-export default function TaskList({jwt}) {
+export default function TaskList() {
     const [tasks, setTasks] = useState([]);
+    const jwt = useJwtStore(state => state.jwt);
 
     useEffect(() => {
         if (jwt) {

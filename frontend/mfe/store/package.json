@@ -1,5 +1,5 @@
 {
-  "name": "@example/tasks",
+  "name": "@example/store",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -15,9 +15,9 @@
     "lint:eslint": "eslint --cache --cache-strategy content"
   },
   "dependencies": {
-    "prop-types": "^15.8.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
